@@ -28,9 +28,11 @@ class EditForm extends Component {
     });
   };
 
-  submitHandler = async updatedObject => {
-    await this.props.updatePost(updatedObject);
+  submitHandler = async (updatedObject, state) => {
+    console.log("Inside Submit Handler : ", updatedObject);
+    await this.props.updatePost(updatedObject, state);
     await this.props.history.push("/");
+    // await this.props.history.goBack();
   };
 
   render() {
@@ -53,7 +55,9 @@ class EditForm extends Component {
         <br />
         <button
           className="btn btn-primary"
-          onClick={() => this.submitHandler(this.state.currentPost)}
+          onClick={() =>
+            this.submitHandler(this.state.currentPost, this.props.allPosts)
+          }
         >
           Submit
         </button>
@@ -64,15 +68,20 @@ class EditForm extends Component {
 const mapStateToProps = state => {
   return {
     currentPost: state.currentPost,
-    isLoading: state.isLoading
+    isLoading: state.isLoading,
+    allPosts: state.posts
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getPost: id => dispatch(actionTypes.getPost(id)),
-    updatePost: newObject =>
-      dispatch({ type: actionTypes.UPDATE_POST, updatedObject: newObject })
+    updatePost: (newObject, oldState) =>
+      dispatch({
+        type: actionTypes.UPDATE_POST,
+        updatedObject: newObject,
+        oldState: oldState
+      })
   };
 };
 export default connect(

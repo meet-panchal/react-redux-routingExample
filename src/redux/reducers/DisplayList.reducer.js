@@ -21,15 +21,12 @@ const reducer = (state = initialState, action) => {
       };
     }
     case actionTypes.UPDATE_POST: {
-      let updateState = state.posts.slice();
-      for (let post of updateState) {
-        if (post.id === action.updatedObject.id) {
-          post = action.updatedObject;
-        }
-      }
+      let updateState = action.oldState;
       return {
         ...state,
-        posts: updateState
+        posts: updateState.map(post =>
+          post.id === action.updatedObject.id ? action.updatedObject : post
+        )
       };
     }
 
