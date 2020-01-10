@@ -2,10 +2,12 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "./redux/actionConstants";
+import "./component.common.css";
 
 class EditForm extends Component {
   state = {
-    currentPost: {}
+    currentPost: {},
+    isLoading: true
   };
 
   componentDidMount() {
@@ -16,7 +18,8 @@ class EditForm extends Component {
     if (prevProps.currentPost !== this.props.currentPost) {
       this.setState({
         ...this.state,
-        currentPost: this.props.currentPost
+        currentPost: this.props.currentPost,
+        isLoading: false
       });
     }
   }
@@ -36,7 +39,7 @@ class EditForm extends Component {
   };
 
   render() {
-    return this.props.isLoading ? (
+    return this.state.isLoading ? (
       <div
         className="spinner-border text-warning"
         role="status"
@@ -45,7 +48,7 @@ class EditForm extends Component {
         <span className="sr-only">Loading...</span>
       </div>
     ) : (
-      <div>
+      <div className="p-3">
         <textarea
           cols="30"
           rows="5"

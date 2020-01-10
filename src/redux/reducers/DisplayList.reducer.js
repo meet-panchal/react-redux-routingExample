@@ -1,8 +1,7 @@
 import * as actionTypes from "../actionConstants";
 const initialState = {
   posts: [],
-  currentPost: [],
-  isLoading: true
+  currentPost: []
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,8 +15,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_POST: {
       return {
         ...state,
-        currentPost: action.post,
-        isLoading: false
+        currentPost: action.post
       };
     }
     case actionTypes.UPDATE_POST: {

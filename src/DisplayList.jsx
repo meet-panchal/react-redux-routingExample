@@ -2,15 +2,20 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actionTypes from "./redux/actionConstants";
+import "./component.common.css";
 
 class DisplayList extends Component {
   state = {
     posts: []
   };
-  componentDidMount() {
-    if (this.state.posts.length === 0) {
-      this.props.loadPosts();
+  async componentDidMount() {
+    if (this.props.allPosts.length === 0) {
+      await this.props.loadPosts();
     }
+    this.setState({
+      ...this.state,
+      posts: this.props.allPosts
+    });
   }
 
   componentDidUpdate(prevProps) {
@@ -21,9 +26,10 @@ class DisplayList extends Component {
       });
     }
   }
+
   render() {
     return (
-      <div>
+      <div className="p-3 list">
         <ol>
           {this.state.posts.map(post => (
             <div key={post.id}>
